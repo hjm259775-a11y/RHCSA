@@ -26,7 +26,7 @@ one
 
 
 
-
+#### 查看IP地址
 
 ```
 root@192:~# ip address
@@ -36,7 +36,7 @@ root@192:~# ip address
 
 
 
-
+#### 修改主机名
 
 ```
 root@192:~# hostnamectl hostname rhcsa
@@ -46,6 +46,8 @@ root@192:~# hostnamectl hostname rhcsa
 
 
 
+#### 重启电脑
+
 ```
 root@rhcsa:~# reboot
 
@@ -53,6 +55,10 @@ root@rhcsa:~# reboot
 ```
 
 
+
+
+
+#### 关机
 
 ```sh
 root@rhcsa:~# poweroff 
@@ -66,7 +72,7 @@ root@rhcsa:~# poweroff
 
 
 
-
+#### 设置快照
 
 基础课的前面笔记就写的小白简洁一点了，
 
@@ -82,7 +88,7 @@ root@rhcsa:~# poweroff
 
 
 
-
+#### 快捷键
 
 |    快捷键    |     作用     |
 | :----------: | :----------: |
@@ -101,7 +107,9 @@ root@rhcsa:~# poweroff
 
 
 
+------------------------------
 
+八股
 
 <img src="C:/Users/xgz24/AppData/Roaming/Typora/typora-user-images/image-20261006202606786.png" alt="image-20261006202606786" style="zoom:50%;" />
 
@@ -117,7 +125,7 @@ root@rhcsa:~# poweroff
 
 • **应用程序**：指运行在系统之上的各类工具和软件，包括文本编辑器、编程语言、X Window、办公套件、互联网工具、数据库等，用于满足用户的具体业务和使用需求。
 
-
+------------------------------
 
 
 
@@ -133,7 +141,7 @@ Linux有六个不同的终端，Ctrl+Alt+F[1,2,3,4,5,6]，即可转到对应的�
 
 
 
-
+#### 命令行解释
 
 ```text
 你是谁、你在哪、干什么
@@ -162,7 +170,7 @@ root 家目录: /root/
 
 
 
-
+#### 查看Linux发行版本信息，内核版本，查看 shell 的类型
 
 ```
 查看当前 Linux 发行版本信息
@@ -199,9 +207,82 @@ root@rhcsa:~# cat /etc/shells
 
 
 
-
+#### 远程控制
 
 可以通过MobaXterm软件把Windows文件传到Linux，也可以将Linux的文件下载到Windows里面来，前提是得远程操控
+
+<img src="C:/Users/xgz24/AppData/Roaming/Typora/typora-user-images/image-20261006230038186.png" alt="image-20261006230038186" style="zoom: 33%;" />
+
+输入IP地址进行远程登录
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#### 修改密码
+
+
+
+root用户：
+
+​	1，可修改任意用户的密码无密码强弱/长度/回文限制改密码时也无需输入旧密码
+
+​	！？强强？！😎
+
+
+
+普通用户：
+
+​	1，仅能修改自身密码
+
+​	2，必须遵循系统强密码规则：密码≥8位、不能是回文、不能与用户名相同/相似，需包含大小写字母/数字/特殊符号中至少2类改密码时需要输入旧密码
+
+```
+[root@rhcsa ~]# passwd
+修改自己的密码
+
+[root@rhcsa ~]# passwd xgz
+修改别的账户的密码
+
+[root@rhcsa ~]# passwd -d xgz
+清空xgz账户的密码
+```
+
+
+
+
+
+
+
+#### 忘记密码
+
+
+
+开机时快速点击
+
+<img src="C:/Users/xgz24/AppData/Roaming/Typora/typora-user-images/image-20261006232512498.png" alt="image-20261006232512498" style="zoom:67%;" />
+
+
+
+
+
+<img src="C:/Users/xgz24/AppData/Roaming/Typora/typora-user-images/image-20261006232401055.png" alt="image-20261006232401055" style="zoom:67%;" />
+
+exec/sbin/init：是系统正常的初始化进程，它会接管并继续完成启动后续服务、加载用户环境等步骤
+
+
+
+
 
 
 
