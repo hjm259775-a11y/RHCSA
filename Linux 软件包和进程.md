@@ -712,6 +712,8 @@ Tasks: 272 total,   1 running, 271 sleeping,   0 stopped,   0 zombie
 MiB Mem :   1731.7 total,    338.3 free,    897.1 used,    667.6 buff/cache
 MiB Swap:   2048.0 total,   2048.0 free,      0.0 used.    834.6 avail Mem
 
+上是统计信息区，下是进程信息区
+
     PID USER      PR  NI    VIRT    RES    SHR S  %CPU  %MEM     TIME+ COMMAND
    1265 root      20   0   19332   7392   5228 S   0.3   0.4   0:03.77 sshd
       1 root      20   0  172420  16756  10940 S   0.0   0.9   0:01.15 systemd
@@ -720,6 +722,129 @@ MiB Swap:   2048.0 total,   2048.0 free,      0.0 used.    834.6 avail Mem
 
 
 top 的输出分为 统计信息区（前 5 行） 和 进程信息区（5 行后） 两个部分
+
+```shell
+统计信息区
+
+# 第一行：系统运行状态 + 平均负载
+# top - 10:15:19 up  1:02,  1 user,  load average: 0.00, 0.00, 0.00
+10:15:19:当前系统时间
+up  1:02:系统运行时长
+1 user:登录用户数
+load average: 0.00, 0.00, 0.00:系统平均负载（1分钟、5分钟、15分钟）（1表示满载）
+
+# 第二行：进程总数统计
+# Tasks: 272 total,   1 running, 271 sleeping,   0 stopped,   0 zombie
+272 total:系统总进程数
+1 running:运行进程数
+271 sleeping:睡眠进程数
+0 stopped:暂停进程数
+0 zombie:僵尸进程数
+
+# 第三行：CPU 资源占用百分比
+# %Cpu(s):  0.3 us,  0.2 sy,  0.0 ni, 99.2 id,  0.0 wa,  0.2 hi,  0.2 si,  0.0 st
+0.3 us:用户空间进程占用 CPU 百分比
+0.2 sy:内核空间进程占用 CPU 百分比
+0.0 ni:调整过谦让值（NI）的进程占用 CPU 百分比
+99.2 id:CPU 空闲百分比
+0.0 wa:CPU 等待磁盘 IO 的时间百分比
+0.2 hi:处理硬件中断的 CPU 时间百分比
+0.2 si:处理软件中断的 CPU 时间百分比
+0.0 st:被虚拟化技术占用的 CPU 时间百分比
+
+# 第四行：物理内存（Mem）使用情况
+# MiB Mem :   1731.7 total,    338.3 free,    897.1 used,    667.6 buff/cache
+1731.7 total:物理内存总大小
+338.3 free:完全空闲的物理内存大小
+897.1 used:已使用的物理内存大小
+667.6 buff/cache:内存缓冲区
+
+# 第五行:交换分区（Swap）使用情况
+# MiB Swap:   2048.0 total,   2048.0 free,      0.0 used.    834.6 avail Mem
+2048.0 total:交换分区总大小
+2048.0 free:空闲交换分区大小
+0.0 used:已使用的交换分区大小
+834.6 avail Mem:可用物理内存大小
+```
+
+
+
+
+
+进程信息区
+
+```
+#       PID USER      PR  NI    VIRT    RES    SHR S  %CPU  %MEM     TIME+ COMMAND
+#     1265 root      20   0   19332   7392   5228 S   0.3   0.4   0:03.77 sshd
+#        1 root      20   0  172420  16756  10940 S   0.0   0.9   0:01.15 systemd
+与 ps aux 类似，数据是实时动态更新的
+
+PID:进程唯一 ID
+USER:运行进程的用户名
+PR:进程优先级
+NI:进程谦让值
+VIRT:进程占用的虚拟内存大小
+RES:进程占用的物理内存大小
+SHR:进程占用的共享内存大小
+S:进程状态
+%CPU:进程实时 CPU 使用率
+%MEM:进程实时内存使用率
+TIME+:进程累计占用 CPU 时间
+COMMAND:进程启动命令
+
+```
+
+注意：可以在 RHEL10 中安装 epel-release 源后安装 htop，htop 是 top 的升级版
+
+
+
+
+
+## 终止进程
+
+### kill
+
+强制结束进程（kill）
+
+
+
+
+
+```
+kill     -选项     进程ID
+killall  -选项     进程名
+```
+
+
+
+| 参数 | 功能                         |
+| :--- | :--------------------------- |
+| -9   | 强制终止进程                 |
+| -1   | 重启进程                     |
+| -15  | 请求进程自动终止             |
+| -l   | 列出所有可用的信号名称和编号 |
+| -u   | 终止指定用户的所有进程       |
+
+```
+[root@rhcsa ~]# ps aux | grep passwd ————————————————————————————————查找passwd相关进程
+[root@rhcsa ~]# kill -9 997
+```
+
+a          显示所有进程，包括其他用户的进程 
+
+u          以用户为主的格式显示进程详细信息（显示用户名、CPU、内存占用等） 
+
+x          显示没有控制终端的进程（如后台服务、守护进程）
+
+
+
+
+
+
+
+
+
+
 
 
 
