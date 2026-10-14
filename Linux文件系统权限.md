@@ -130,11 +130,13 @@ chmod    -选项    nnn    文件或目录名...
 
 
 ```
-[root@rhcsa ~]# chmod o+x file1 ————————————————————————————————将file1的其他人权限加上x
+[root@rhcsa ~]# chmod o+x file1 ————————————————————————————————将file1文件的其他人权限加上x
 
 [root@rhcsa ~]# chmod o=w file1 ————————————————————————————————修改file1的其他人权限为-w-（直接覆盖）
 
 [root@rhcsa ~]# chmod 777 file1 ————————————————————————————————修改file1的所有的权限为rwx
+
+[root@rhcsa ~]# chmod a+x file1 ————————————————————————————————将file1文件的所有权限加上x
 ```
 
 
@@ -167,6 +169,10 @@ chmod    -选项    nnn    文件或目录名...
 
 ### SUID
 
+管文件的 
+
+一般suid是添加给可执行文件的，让其运行过程中临时具备超级管理员权限
+
 -   可执行文件设置：普通用户执行此文件时临时获得该文件所有者权限
 
     ​	所有者 u 执行位显示 s（文件本身有 x 权限）或 S（文件本身没有 x 权限）
@@ -188,11 +194,26 @@ chmod    -选项    nnn    文件或目录名...
     ​	普通用户执行 passwd 时，可获得 root 权限，从而能够修改 /etc/shadow 文件中的密码信息。
 
 ```
-[root@rhcsa ~]# ll /usr/bin/passwd
--rwsr-xr-x. 1 root root 32648 Aug 10  2021 /usr/bin/passwd
-[root@rhcsa ~]# ll /etc/shadow
----------- 1 root root 1140 Jan  2 18:03 /etc/shadow
+[root@192 ~]# ll /etc/shadow
+----------. 1 root root 843 10月13日 11:19 /etc/shadow
+[root@192 ~]# chmod u+s /bin/cat
+[root@192 ~]# ll /bin/cat
+-rwsr-xr-x. 1 root root 40744 2026年 1月15日 /bin/cat
+[root@192 ~]# ll /etc/shadow
+----------. 1 root root 843 10月13日 11:19 /etc/shadow
+[root@192 ~]# su - xgz
+[xgz@192 ~]$ cat /etc/shadow
+
+可以看到，修改cat配置文件的权限，也可以让非root用户查看shadow
 ```
+
+
+
+```
+当然，你直接修改shadow的权限也是可以的
+```
+
+
 
 注意：
 
@@ -206,11 +227,11 @@ chmod    -选项    nnn    文件或目录名...
 
 ### SGID
 
+管目录的
 
+-    目录设置：在此目录下新创建的文件和子目录继承其组属性（所属组为该目录所属组）（团队协作）
 
--   目录设置：在此目录下新创建的文件和子目录继承其组属性（所属组为该目录所属组）（团队协作）
-
-    ​	就是给目录设置 SGID 后，任何人在这个目录里新建的文件/子目录，其所属组都会自动变成该目录的所属组，而不是创建者自己的主组。
+    ​	（**就是给目录设置 SGID 后，任何人在这个目录里新建的文件/子目录，其所属组都会自动变成该目录的所属组，而不是创建者自己的主组。**）
 
 -   可执行文件设置：普通用户执行此文件时临时获得文件所属组权限
 
@@ -251,6 +272,10 @@ drwxr-xr-x. 2 root kaifa 6 6月 8日 18:18 /test
 
 
 ###  Sticky Bit 粘滞位
+
+管目录的
+
+**当某目录具备sticky bits权限时，此目录中谁创建的文件谁才能删除**
 
 -   目录设置：公共可写目录，在该目录下，用户只能“删除/重命名/移动”自己创建的文件（root 不受限制）
 
@@ -335,6 +360,11 @@ rm: 无法删除 '/test/rootfile2': 不允许的操作
 
 ```
 getfacl    文件名
+```
+
+
+
+```
 [root@rhcsa ~]# touch temp.cfg
 [root@rhcsa ~]# getfacl temp.cfg        # 默认无 ACL 权限
 # file: temp.cfg
