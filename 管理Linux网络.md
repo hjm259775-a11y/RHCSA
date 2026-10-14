@@ -97,13 +97,21 @@ ens160就是en s
 [root@rhcsa ~]# nmcli connection down ens160   # 停用网络连接
 ```
 
+以上用来查看，以下是配置网络
+
+
+
 
 
 -   设置静态 IP
 
 ```
-# 配置静态 IP（修改网络连接）
-[root@rhcsa ~]# nmcli connection modify ens160 ipv4.method manual ipv4.addresses 192.168.17.100/24 ipv4.gateway 192.168.17.2 ipv4.dns 114.114.114.114 connection.autoconnect yes
+# 配置静态 IP（修改网络连接）设置静态上网方式
+[root@rhcsa ~]# nmcli connection modify ens160 ipv4.method manual ipv4.addresses 192.168.17.100/24 —————配置IP和掩码
+[root@rhcsa ~]# nmcli connection modify ens160 ipv4.method manual ipv4.gateway 192.168.17.2  ——————————配置网关
+[root@rhcsa ~]# nmcli connection modify ens160 ipv4.method manual ipv4.dns 114.114.114.114 ————————————配置DNS
+[root@rhcsa ~]# nmcli connection modify ens160 ipv4.method manual connection.autoconnect yes ——————————这条连接的 IPv4 不用 DHCP，改用手动配置（静态）
+connection.autoconnect yes	——————————————开机/系统启动时自动启用这条连接
 
 [root@rhcsa ~]# nmcli connection up ens160
 
@@ -131,12 +139,7 @@ nameserver 114.114.114.114
 # 添加网络连接
 # 类型：以太网   关联 ens160 的物理网络接口   设置名称 xgz   系统启动时自动激活此网络连接
 [root@rhcsa ~]# nmcli connection add type ethernet ifname ens160 con-name xgz autoconnect yes ipv4.method manual ipv4.addresses 192.168.17.200/24 ipv4.gateway 192.168.17.2 ipv4.dns 114.114.114.114
-
 [root@rhcsa ~]# nmcli connection up xgz
-
-[root@rhcsa ~]# nmcli connection show
-
-[root@rhcsa ~]# nmcli connection up ens160
 ```
 
 
@@ -147,23 +150,6 @@ nameserver 114.114.114.114
 # 增加一个 IP 地址
 [root@rhcsa ~]# nmcli connection modify ens160 +ipv4.addresses 192.168.17.101/24
 [root@rhcsa ~]# nmcli connection up ens160
-Connection successfully activated (D-Bus active path: /org/freedesktop/NetworkManager/ActiveConnection/x)
-[root@rhcsa ~]# ip a
-1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
-    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
-    inet 127.0.0.1/8 scope host lo
-       valid_lft forever preferred_lft forever
-    inet6 ::1/128 scope host
-       valid_lft forever preferred_lft forever
-2: ens160: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc mq state UP group default qlen 1000
-    link/ether 00:0c:29:aa:34:54 brd ff:ff:ff:ff:ff:ff
-    altname enp3s0
-    inet 192.168.17.100/24 brd 192.168.17.255 scope global noprefixroute ens160
-       valid_lft forever preferred_lft forever
-    inet 192.168.17.101/24 brd 192.168.17.255 scope global secondary noprefixroute ens160
-       valid_lft forever preferred_lft forever
-    inet6 fe80::20c:29ff:feaa:3454/64 scope link noprefixroute
-       valid_lft forever preferred_lft forever
 ```
 
 
@@ -171,19 +157,17 @@ Connection successfully activated (D-Bus active path: /org/freedesktop/NetworkMa
 -   删除网络连接
 
 ```
-[root@rhcsa ~]# nmcli connection show
-NAME    UUID                                  TYPE       DEVICE
-ens160  bb4ec19e-31e8-3067-9878-9d5c2607c4a3  ethernet   ens160
-lo      d6cb4851-3b0d-4ec0-b839-40fa098ccff6  loopback   lo
-ens161  e6e5380f-3afd-4f6a-970c-c15283fdd00a  ethernet   --
-
 [root@rhcsa ~]# nmcli connection delete ens161
-Connection 'ens161' (e6e5380f-3afd-4f6a-970c-c15283fdd00a) successfully deleted.
+```
 
-[root@rhcsa ~]# nmcli connection show
-NAME    UUID                                  TYPE       DEVICE
-ens160  bb4ec19e-31e8-3067-9878-9d5c2607c4a3  ethernet   ens160
-lo      d6cb4851-3b0d-4ec0-b839-40fa098ccff6  loopback   lo
+
+
+
+
+```
+[root@rhcsa ~]# nmcli connection modify enp0s5 ipv4.method manual
+
+让连接不要用 DHCP 去自动获取 IPv4 地址，改用你手动配置的静态地址
 ```
 
 
