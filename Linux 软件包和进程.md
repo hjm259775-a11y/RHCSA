@@ -292,6 +292,7 @@ mount /dev/sr0  /mnt ———————————————————�
 
 ```
 [root@rhcsa ~]# vim /etc/yum.repos.d/ali.repo
+————————————————————————————————————————————————————————————————————————————————————————————
 [ali-BaseOS]
 name=ali-BaseOS
 baseurl=https://mirrors.aliyun.com/rockylinux/10/BaseOS/x86_64/os/
@@ -301,6 +302,7 @@ gpgcheck=0
 name=ali-AppStream
 baseurl=https://mirrors.aliyun.com/rockylinux/10/AppStream/x86_64/os/
 gpgcheck=0
+————————————————————————————————————————————————————————————————————————————————————————————
 
 [root@rhcsa ~]# dnf clean all
 

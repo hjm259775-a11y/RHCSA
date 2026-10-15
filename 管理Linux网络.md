@@ -107,13 +107,13 @@ ens160就是en s
 
 ```
 # 配置静态 IP（修改网络连接）设置静态上网方式
-[root@rhcsa ~]# nmcli connection modify ens160 ipv4.method manual ipv4.addresses 192.168.17.100/24 —————配置IP和掩码
+[root@rhcsa ~]# nmcli connection modify ens160 ipv4.method manual ipv4.addresses 192.168.17.100/24 ————配置IP和掩码
 [root@rhcsa ~]# nmcli connection modify ens160 ipv4.method manual ipv4.gateway 192.168.17.2  ——————————配置网关
 [root@rhcsa ~]# nmcli connection modify ens160 ipv4.method manual ipv4.dns 114.114.114.114 ————————————配置DNS
 [root@rhcsa ~]# nmcli connection modify ens160 ipv4.method manual connection.autoconnect yes ——————————这条连接的 IPv4 不用 DHCP，改用手动配置（静态）
-connection.autoconnect yes	——————————————开机/系统启动时自动启用这条连接
 
-[root@rhcsa ~]# nmcli connection up ens160
+[root@rhcsa ~]# nmcli connection up ens160 ———————————————激活此条连接
+
 
 # 查看 IP 地址
 [root@rhcsa ~]# ip a
